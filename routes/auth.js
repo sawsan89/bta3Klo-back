@@ -10,9 +10,9 @@ const requireLogin=require('../middleware/requireLogin')
 router.get('/protected',requireLogin,(req,res)=>{
     res.send('Hi')
 })
-router.post('/signup',(req,res)=>{
-    const {name,email,password}=req.body
-    if(!email|| !password || !name){
+router.post('/Signup',(req,res)=>{
+    const {firstname, lastname, username, email, phonenumber,password}=req.body
+    if(!firstname || !lastname || !username  || !email|| !password){
         return res.status(422).json({error:"please add all the fields"})
     }
 User.findOne({email:email})
@@ -24,9 +24,12 @@ User.findOne({email:email})
     .then(hashedpassword=>{
 
         const user =new User({
+            firstname,
+            lastname,
+            username,
             email,
+            phonenumber,
             password:hashedpassword,
-            name
         })
         user.save()
         .then(user=>{
@@ -38,19 +41,18 @@ User.findOne({email:email})
 })
 .catch(err=>{
     console.log(err)
-
-  })
+})
 })
 
 router.post('/signin',(req,res)=>{
     const{email,password}=req.body
     if(!email||!password){
-       return res.status(422).json({error:'please add email or password'})
+        return res.status(422).json({error:'please add email or password'})
     }
     User.findOne({email:email})
     .then(savedUser=>{
         if(!savedUser){
-           return res.status(422).json({error:'Invalid e-mail or password '})
+            return res.status(422).json({error:'Invalid e-mail or password '})
         }
         bcrypt.compare(password,savedUser.password)
         .then(doMatch=>{
@@ -60,12 +62,12 @@ router.post('/signin',(req,res)=>{
                 res.json({token})
             }
             else{
-           return res.status(422).json({error:'Invalid e-mail or password '})
+                return res.status(422).json({error:'Invalid e-mail or password '})
             }
         }) 
         .catch(err=>{
             console/log(err)
         })
-      })
+    })
 })
 module.exports = router 
