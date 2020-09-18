@@ -11,8 +11,10 @@ router.get('/protected',requireLogin,(req,res)=>{
     res.send('Hi')
 })
 router.post('/Signup',(req,res)=>{
-    const {firstname, lastname, username, email, phonenumber,password}=req.body
-    if(!firstname || !lastname || !username  || !email|| !password){
+    const {firstName, lastName, userName, 
+        email, phonenumber, password} = req.body
+        console.log(req.body)
+    if(!firstName || !lastName || !userName  || !email || !phonenumber || !password){
         return res.status(422).json({error:"please add all the fields"})
     }
 User.findOne({email:email})
@@ -24,9 +26,9 @@ User.findOne({email:email})
     .then(hashedpassword=>{
 
         const user =new User({
-            firstname,
-            lastname,
-            username,
+            firstName,
+            lastName,
+            userName,
             email,
             phonenumber,
             password:hashedpassword,

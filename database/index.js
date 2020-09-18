@@ -5,7 +5,7 @@ const { MongoClient } = require("mongodb");
 const dotenv = require('dotenv');
 
 dotenv.config();
-const uri = process.env.MONGO;
+const uri = process.env.MONGO || url;
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
