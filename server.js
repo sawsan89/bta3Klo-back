@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
-  });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT} Visit https://localhost:${PORT}`)
